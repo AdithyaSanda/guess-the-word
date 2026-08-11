@@ -21,6 +21,8 @@ const Login = () => {
             ...formData,
             [name]: value
         })
+
+        setError("");
     }
 
     const handleSubmit = async (e) => {
@@ -68,7 +70,7 @@ const Login = () => {
                     <input type="password" placeholder="Password" name="password" className="w-100 h-10 rounded border p-2" onChange={handleInputChange} required/>
                     {error && <p>{error}</p>}
                     <button type="submit" disabled={loading} className="bg-white text-black p-2 rounded mt-5 font-bold cursor-pointer">{loading ? "Logging in..." : "Login"}</button>
-                    <span>Not registered yet? <Link to={"/signup"} className="underline font-bold">Signup</Link></span>
+                    <span>Not registered yet? <Link to={"/register"} className="underline font-bold">Register</Link></span>
                 </form>
             </div>
         </div>
