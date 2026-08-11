@@ -59,4 +59,33 @@ public class GameService {
 
         return gameRepository.save(game);
     }
+
+    private String evaluateGuess(String answer, String guess) {
+        char[] result = {'X', 'X', 'X', 'X', 'X'};
+
+        boolean[] used = new boolean[5];
+
+        for(int i = 0; i < 5; i++) {
+            if(guess.charAt(i) == answer.charAt(i)) {
+                result[i] = 'G';
+                used[i] = true;
+            }
+        }
+
+        for(int i = 0; i < 5; i++) {
+            if(result[i] == 'G') {
+                continue;
+            }
+
+            for(int j = 0; j < 5; j++) {
+                if(!used[j] && guess.charAt(i) == answer.charAt(j)) {
+                    result[i] = 'O';
+                    used[j] = true;
+                    break;
+                }
+            }
+        }
+
+        return new String(result);
+    }
 }
