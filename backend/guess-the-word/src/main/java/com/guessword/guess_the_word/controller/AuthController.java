@@ -1,5 +1,7 @@
 package com.guessword.guess_the_word.controller;
 
+import com.guessword.guess_the_word.dto.LoginRequest;
+import com.guessword.guess_the_word.dto.LoginResponse;
 import com.guessword.guess_the_word.dto.RegisterRequest;
 import com.guessword.guess_the_word.dto.RegisterResponse;
 import com.guessword.guess_the_word.services.AuthService;
@@ -28,5 +30,10 @@ public class AuthController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new RegisterResponse("User registered successfully"));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
+        return ResponseEntity.ok(authService.login(request));
     }
 }
