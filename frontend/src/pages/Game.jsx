@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import GuessRow from "../components/GuessRow";
 import api from "../services/api";
+import Header from "../components/Header";
 
 
 const KEYBOARD_ROWS = [
@@ -246,34 +247,7 @@ function Game() {
             onClick={() => inputRef.current?.focus()}
         >
 
-            <header className="h-16 border-b border-white bg-[#181818]">
-                <div className="mx-auto flex h-full max-w-4xl items-center justify-between px-6">
-
-                    <h1 className="text-xl font-bold tracking-wide">
-                        GUESS THE WORD
-                    </h1>
-
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            logout();
-                        }}
-                        className="
-                            rounded-lg
-                            border border-gray-300
-                            px-4 py-2
-                            text-sm font-medium
-                            text-white
-                            transition
-                            hover:bg-[#3a3a3c]
-                            cursor-pointer
-                        "
-                    >
-                        Logout
-                    </button>
-
-                </div>
-            </header>
+            <Header />
 
             <main className="mx-auto flex max-w-xl flex-col items-center px-4 py-8">
                 <div className="mt-4 flex flex-col gap-2">

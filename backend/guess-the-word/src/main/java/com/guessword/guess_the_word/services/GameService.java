@@ -129,7 +129,7 @@ public class GameService {
 
             gameRepository.save(game);
 
-            return new GuessResponse(guess, result, "WIN", "Congratulations!", game.getGuessesUsed());
+            return new GuessResponse(guess, result, "WIN", "You guessed the word in " +  game.getGuessesUsed()  + " attempts.", game.getGuessesUsed());
         }
 
         if(game.getGuessesUsed() >= 5) {
