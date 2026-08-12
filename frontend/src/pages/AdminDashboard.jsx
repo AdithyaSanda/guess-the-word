@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
+import Header from "../components/Header";
 
 function AdminDashboard() {
 
@@ -104,7 +105,9 @@ function AdminDashboard() {
 
 
     return (
-        <div className="min-h-screen bg-[#101010] px-6 py-10 text-white">
+      <>
+        <Header />
+        <div className="min-h-screen bg-[#181818] px-6 py-10 text-white">
 
             <div className="mx-auto w-full max-w-2xl">
 
@@ -167,6 +170,7 @@ function AdminDashboard() {
                             hover:bg-green-700
                             disabled:cursor-not-allowed
                             disabled:opacity-50
+                            cursor-pointer
                         "
                     >
                         {loading
@@ -294,11 +298,12 @@ function AdminDashboard() {
                           hover:bg-green-700
                           disabled:cursor-not-allowed
                           disabled:opacity-50
+                          cursor-pointer
                       "
                   >
                       {userReportLoading
                           ? "Loading..."
-                          : "View Report"
+                          : "View Report" 
                       }
                   </button>
 
@@ -307,7 +312,7 @@ function AdminDashboard() {
 
                           <table className="w-full text-left">
 
-                              <thead className="bg-[#181818]">
+                              <thead className="bg-[#212121]">
 
                                   <tr>
                                       <th className="px-4 py-3 text-sm text-gray-400">
@@ -369,6 +374,7 @@ function AdminDashboard() {
             </div>
 
         </div>
+      </>
     );
 }
 

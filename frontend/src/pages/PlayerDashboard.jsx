@@ -56,9 +56,6 @@ const PlayerDashboard = () => {
                     <p className='text-2xl'>Guess the 5-letter word.</p>
                     <p className='text-2xl'>You can play upto 3 games per day.</p>
                 </div>
-                
-
-                {error && <p>{error}</p>}
 
                 <div className='flex gap-2 mt-4'>
                     <button className='border border-white p-3 w-40 rounded-full hover:bg-[#3a3a3c] font-semibold cursor-pointer' onClick={logout}>Logout</button>
