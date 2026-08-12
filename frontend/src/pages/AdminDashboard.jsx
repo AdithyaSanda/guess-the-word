@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../services/api";
 
 function AdminDashboard() {
@@ -8,6 +8,66 @@ function AdminDashboard() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
+    const [users, setUsers] = useState([]);
+    const [selectedUser, setSelectedUser] = useState("");
+    const [userReport, setUserReport] = useState([]);
+    const [userReportLoading, setUserReportLoading] = useState(false);
+    const [userReportRequested, setUserReportRequested] = useState(false);
+
+    useEffect(() => {
+        fetchUsers();
+    }, []);
+
+    const fetchUsers = async () => {
+
+        try {
+
+            const response = await api.get(
+                "/api/admin/users"
+            );
+
+            setUsers(response.data);
+
+        } catch (error) {
+
+            console.error(
+                "Failed to fetch users",
+                error
+            );
+
+        }
+    };
+
+
+    const getUserReport = async () => {
+
+        if (!selectedUser) {
+            return;
+        }
+
+        setUserReportRequested(true);
+        setUserReportLoading(true);
+
+        try {
+
+            const response = await api.get(
+                `/api/admin/reports/user/${selectedUser}`
+            );
+
+            setUserReport(response.data);
+
+        } catch (error) {
+
+            console.error(
+                "Failed to fetch user report",
+                error
+            );
+
+        } finally {
+
+            setUserReportLoading(false);
+        }
+    };
 
     const getDailyReport = async () => {
 
@@ -57,7 +117,7 @@ function AdminDashboard() {
                 </p>
 
 
-                {/* Daily Report */}
+             
 
                 <div className="mt-8">
 
@@ -123,8 +183,6 @@ function AdminDashboard() {
                     )}
 
 
-                    {/* Results */}
-
                     {report && (
                         <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
 
@@ -169,6 +227,144 @@ function AdminDashboard() {
                     )}
 
                 </div>
+
+                <div className="mt-12">
+
+                  <h2 className="text-xl font-semibold">
+                      User Report
+                  </h2>
+
+                  <label className="mt-6 block text-sm text-gray-400">
+                      Select User
+                  </label>
+
+                  <select
+                      value={selectedUser}
+                      onChange={(e) => {
+                          setSelectedUser(e.target.value);
+                          setUserReport([]);
+                          setUserReportRequested(false);
+                      }}
+                      className="
+                          mt-2
+                          w-full
+                          rounded-lg
+                          border
+                          border-[#3a3a3c]
+                          bg-[#181818]
+                          px-4
+                          py-3
+                          text-white
+                          outline-none
+                          focus:border-green-500
+                      "
+                  >
+
+                      <option value="">
+                          Select a user
+                      </option>
+
+                      {users.map((user) => (
+                          <option
+                              key={user.id}
+                              value={user.id}
+                          >
+                              {user.username}
+                          </option>
+                      ))}
+
+                  </select>
+
+
+                  <button
+                      onClick={getUserReport}
+                      disabled={
+                          !selectedUser ||
+                          userReportLoading
+                      }
+                      className="
+                          mt-4
+                          rounded-lg
+                          bg-green-600
+                          px-6
+                          py-3
+                          font-semibold
+                          text-white
+                          transition
+                          hover:bg-green-700
+                          disabled:cursor-not-allowed
+                          disabled:opacity-50
+                      "
+                  >
+                      {userReportLoading
+                          ? "Loading..."
+                          : "View Report"
+                      }
+                  </button>
+
+                  {userReport.length > 0 && (
+                      <div className="mt-8 overflow-hidden rounded-xl border border-[#3a3a3c]">
+
+                          <table className="w-full text-left">
+
+                              <thead className="bg-[#181818]">
+
+                                  <tr>
+                                      <th className="px-4 py-3 text-sm text-gray-400">
+                                          Date
+                                      </th>
+
+                                      <th className="px-4 py-3 text-sm text-gray-400">
+                                          Words Tried
+                                      </th>
+
+                                      <th className="px-4 py-3 text-sm text-gray-400">
+                                          Correct Guesses
+                                      </th>
+                                  </tr>
+
+                              </thead>
+
+
+                              <tbody>
+
+                                  {userReport.map((item) => (
+
+                                      <tr
+                                          key={item.date}
+                                          className="border-t border-[#3a3a3c]"
+                                      >
+
+                                          <td className="px-4 py-3">
+                                              {item.date}
+                                          </td>
+
+                                          <td className="px-4 py-3">
+                                              {item.wordsTried}
+                                          </td>
+
+                                          <td className="px-4 py-3 text-green-500">
+                                              {item.correctGuesses}
+                                          </td>
+
+                                      </tr>
+
+                                  ))}
+
+                              </tbody>
+
+                          </table>
+
+                      </div>
+                  )}
+
+                  {userReportRequested && !userReportLoading && userReport.length === 0 && (
+                      <p className="mt-6 text-sm text-gray-400">
+                          No games played by this user.
+                      </p>
+                  )}
+
+              </div>
 
             </div>
 
