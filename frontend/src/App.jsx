@@ -4,6 +4,7 @@ import Register from "./pages/Register"
 import PlayerDashboard from "./pages/PlayerDashboard"
 import Game from "./pages/Game"
 import AdminDashboard from "./pages/AdminDashboard"
+import ProtectedRoute from "./components/ProtectedRoute"
 
 function App() {
 
@@ -12,11 +13,38 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />}/>
-        <Route path="/register" element={<Register />}/>
-        <Route path="/player" element={<PlayerDashboard />}/>
-        <Route path="/admin" element={<AdminDashboard />}/>
-        <Route path="/game/:gameId" element={<Game />}/>
+        <Route 
+          path="/" 
+          element={<Login />}
+        />
+        <Route 
+          path="/register" 
+          element={<Register />}
+        />
+        <Route 
+          path="/player" 
+          element={
+            <ProtectedRoute allowedRole={"PLAYER"}>
+              <PlayerDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route 
+          path="/admin" 
+          element={
+            <ProtectedRoute allowedRole={"ADMIN"}> 
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route 
+          path="/game/:gameId" 
+          element={
+            <ProtectedRoute allowedRole={"PLAYER"}>
+              <Game />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   )
