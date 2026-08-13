@@ -5,6 +5,7 @@ import PlayerDashboard from "./pages/PlayerDashboard"
 import Game from "./pages/Game"
 import AdminDashboard from "./pages/AdminDashboard"
 import ProtectedRoute from "./components/ProtectedRoute"
+import PublicRoute from "./components/PublicRoute"
 
 function App() {
 
@@ -15,11 +16,19 @@ function App() {
       <Routes>
         <Route 
           path="/" 
-          element={<Login />}
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
         />
         <Route 
           path="/register" 
-          element={<Register />}
+          element={
+            <PublicRoute>
+              <Register />
+            </PublicRoute>
+          }
         />
         <Route 
           path="/player" 
