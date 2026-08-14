@@ -2,6 +2,7 @@ package com.guessword.guess_the_word.services;
 
 import com.guessword.guess_the_word.dto.LoginRequest;
 import com.guessword.guess_the_word.dto.LoginResponse;
+import com.guessword.guess_the_word.dto.LoginResult;
 import com.guessword.guess_the_word.dto.RegisterRequest;
 import com.guessword.guess_the_word.entities.Role;
 import com.guessword.guess_the_word.entities.User;
@@ -43,15 +44,18 @@ public class AuthService {
         userRepository.save(user);
     }
 
-    public LoginResponse login(LoginRequest request) {
+    public LoginResult login(LoginRequest request) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        String token = jwtService.generateToken(userDetails);
+        String token = jwtService.generateAccessToken(userDetails);
+        String refreshToken = jwtService.generateRefreshToken(userDetails);
 
         User user = userRepository.findByUsername(request.getUsername()).orElseThrow();
 
-        return new LoginResponse(token, user.getUsername(), user.getRole().name());
+        user.setRefreshToken(refreshToken);
+        userRepository.save(user);
+        return new LoginResult(token, refreshToken, user.getUsername(), user.getRole().name());
     }
 }

@@ -1,7 +1,6 @@
 package com.guessword.guess_the_word.controller;
 
 import com.guessword.guess_the_word.dto.UserResponse;
-import com.guessword.guess_the_word.entities.User;
 import com.guessword.guess_the_word.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
