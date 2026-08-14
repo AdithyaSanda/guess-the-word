@@ -2,12 +2,20 @@ import React from 'react'
 import wordQuestLogo from '../assets/wordQuestLogo.png'
 import wordQuest from "../assets/wordQuest.png"
 import { useNavigate } from 'react-router-dom'
+import api from '../services/api'
 
 const Header = () => {
 
     const navigate = useNavigate();
 
-    const logout = () => {
+    const logout = async () => {
+
+        try {
+            await api.post("/api/auth/logout");
+        } catch (error) {
+            console.error(error);
+        }
+
         localStorage.removeItem("token");
         localStorage.removeItem("username");
         localStorage.removeItem("role");

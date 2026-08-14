@@ -19,8 +19,7 @@ const ProtectedRoute = ({children, allowedRole}) => {
             return <Navigate to="/player" replace/>;
         }
 
-        localStorage.removeItem("token");
-        localStorage.removeItem("role");
+        localStorage.clear();
 
         return <Navigate to="/" replace />;
     }
