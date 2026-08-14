@@ -1,8 +1,9 @@
-import { useState } from "react"
+import { use, useState } from "react"
 import { Link, replace, useNavigate } from "react-router-dom"
 import api from "../services/api"
 import wordQuestLogo from "../assets/wordQuestLogo.png"
 import wordQuest from "../assets/wordQuest.png"
+import { Eye, EyeOff } from "lucide-react"
 
 const Login = () => {
 
@@ -15,6 +16,7 @@ const Login = () => {
 
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
 
     const handleInputChange = (e) => {
@@ -78,7 +80,27 @@ const Login = () => {
                     <label htmlFor="username" className="text-xl">Username</label>
                     <input type="text" placeholder="John" name="username" value={formData.username} className="w-100 h-10 rounded border p-2" onChange={handleInputChange} required/>
                     <label htmlFor="username" className="text-xl">Password</label>
-                    <input type="password" placeholder="Password" name="password" className="w-100 h-10 rounded border p-2" onChange={handleInputChange} required/>
+                    <div className="relative">
+                            <input type={showPassword ? "text" : "password"} placeholder="Password" name="password" className="w-100 h-10 rounded border p-2" onChange={handleInputChange} required/>
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="
+                                absolute
+                                right-3
+                                top-1/2
+                                -translate-y-1/2
+                                text-gray-400
+                                hover:text-white
+                            "
+                        >
+                            {showPassword
+                                ? <EyeOff size={20} />
+                                : <Eye size={20} />
+                            }
+                        </button>
+                    </div>
+                    
                     {error && <p className="text-red-700">{error}</p>}
                     <button type="submit" disabled={loading} className="bg-white text-black p-2 rounded mt-5 font-bold cursor-pointer">{loading ? "Logging in..." : "Login"}</button>
                     <span>Not registered yet? <Link to={"/register"} className="underline font-bold">Register</Link></span>
