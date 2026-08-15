@@ -1,4 +1,4 @@
-# 🎯 Guess the Word
+# 🎯 WordQuest
 
 A full-stack word guessing game built with **React** and **Spring Boot**.
 
